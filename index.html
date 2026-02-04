@@ -104,7 +104,7 @@
             transition: all 0.5s ease;
         }
 
-        /* --- 6. ẢNH BAY --- */
+        /* --- 6. ẢNH BAY (MẶC ĐỊNH ẨN - OPACITY 0) --- */
         #scattered-gallery {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 12; opacity: 0; transition: opacity 2s ease;
@@ -126,7 +126,7 @@
 
         @keyframes float { 0%, 100% { margin-top: 0; } 50% { margin-top: -15px; } }
 
-        /* --- 7. CẬP NHẬT: GIAO DIỆN NÚT THƯ GIỐNG HỆT ẢNH --- */
+        /* --- 7. NÚT THƯ (MẶC ĐỊNH ẨN - OPACITY 0) --- */
         .toolbar {
             position: fixed;
             bottom: 30px;
@@ -135,16 +135,16 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            opacity: 0;
-            transition: opacity 1s;
+            opacity: 0; /* ẨN LÚC ĐẦU */
+            transition: opacity 1.5s ease;
         }
-        .toolbar.show { opacity: 1; }
+        .toolbar.show { opacity: 1; } /* CLASS NÀY SẼ KÍCH HOẠT KHI THỔI NẾN */
 
-        /* Bong bóng thoại - Làm giống ảnh */
+        /* Bong bóng thoại */
         .speech-bubble {
             background: #fff;
             padding: 10px 18px;
-            border-radius: 30px; /* Bo tròn kiểu viên thuốc */
+            border-radius: 30px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             font-family: 'Montserrat', sans-serif;
             font-size: 0.95rem;
@@ -154,17 +154,15 @@
             font-weight: 500;
             animation: floatBubble 3s ease-in-out infinite;
         }
-
-        /* Mũi tên tam giác chỉ sang phải */
         .speech-bubble::after {
             content: '';
             position: absolute;
-            right: -8px; /* Đẩy mũi tên ra ngoài bên phải */
+            right: -8px; 
             top: 50%;
             transform: translateY(-50%);
             border-style: solid;
-            border-width: 8px 0 8px 10px; /* Tạo hình tam giác */
-            border-color: transparent transparent transparent #fff; /* Màu trắng */
+            border-width: 8px 0 8px 10px; 
+            border-color: transparent transparent transparent #fff; 
         }
 
         @keyframes floatBubble {
@@ -172,22 +170,19 @@
             50% { transform: translateX(-5px); }
         }
 
-        /* Nút tròn màu hồng giống ảnh */
+        /* Nút tròn màu hồng */
         .tool-btn {
             width: 60px; height: 60px;
             border-radius: 50%;
-            /* Gradient hồng nhẹ giống ảnh */
             background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
             display: flex; justify-content: center; align-items: center;
             box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
             cursor: pointer;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 3px solid #fff; /* Viền trắng dày hơn chút */
+            border: 3px solid #fff; 
         }
 
-        /* Icon thư bên trong: Màu trắng */
         .letter-btn { color: #fff; font-size: 1.5rem; }
-
         .tool-btn:hover { transform: scale(1.1); }
         .tool-btn:active { transform: scale(0.95); }
 
@@ -316,7 +311,7 @@
 
     <div class="toolbar" id="toolbar">
         <div class="speech-bubble">
-            Tớ có thư cho bạn nè! 💌
+            Anh có thư cho em nè! 💌
         </div>
         <div class="tool-btn" onclick="toggleLetter()">
             <i class="fas fa-envelope letter-btn"></i>
@@ -333,7 +328,7 @@
                 <p>Chúc cậu tuổi mới luôn xinh đẹp, học giỏi và gặp nhiều may mắn nhé. Mong rằng mọi điều ước khi thổi nến của cậu sẽ thành hiện thực.</p>
                 <p>Happy Birthday! 🎂✨</p>
                 <br>
-                <p style="text-align: right;">( N.M.T(Cốt) )</p>
+                <p style="text-align: right;">(Ký tên)</p>
             </div>
         </div>
     </div>
@@ -442,16 +437,13 @@
             }, 500);
         }
 
+        // --- BƯỚC 1: XỬ LÝ NHẬP PASS (CHỈ MỞ CỔNG, KHÔNG LÀM GÌ KHÁC) ---
         function checkPass() {
             const input = document.getElementById('passInput');
             const errorMsg = document.getElementById('errorMsg');
             
             if (input.value === CORRECT_PASS) {
-                bgMusic.volume = 0.5; 
-                bgMusic.play().catch(error => {
-                    console.log("Trình duyệt chặn tự phát nhạc: ", error);
-                });
-
+                // CHỈ MỞ KHÓA, KHÔNG BẬT NHẠC
                 document.getElementById('welcome-screen').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('welcome-screen').style.display = 'none';
@@ -472,11 +464,11 @@
             if (e.key === 'Enter') checkPass();
         });
 
+        // --- BƯỚC 2: MỞ CỔNG: CHỈ HIỆN BÁNH KEM ---
         function openGateAndStartParty() {
             partyContainer.classList.add('revealed');
-            gallery.style.opacity = '1';
-            toolbar.classList.add('show');
-            initGallery(); 
+            
+            // LÚC NÀY CHƯA HIỆN ẢNH VÀ THƯ
             gate.classList.add('is-open');
             gate.classList.add('vanish');
         }
@@ -514,12 +506,30 @@
             }, 3000);
         }
 
+        // --- BƯỚC 3: THỔI NẾN -> KÍCH HOẠT TẤT CẢ (NHẠC, ẢNH, THƯ) ---
         function blowCandle() {
             if (candleBlown) return;
 
+            // 1. Tắt lửa & khói bay
             document.getElementById('flame').classList.add('off');
             document.getElementById('smoke').classList.add('rise');
             
+            // 2. BÂY GIỜ MỚI PHÁT NHẠC
+            bgMusic.volume = 0.5; 
+            bgMusic.play().catch(error => {
+                console.log("Trình duyệt chặn tự phát nhạc: ", error);
+            });
+
+            // 3. HIỆN ẢNH (SCATTERED GALLERY)
+            gallery.style.opacity = '1';
+            initGallery(); // Bắt đầu đổi ảnh ngẫu nhiên
+
+            // 4. HIỆN NÚT THƯ (SAU 1 GIÂY CHO ĐẸP)
+            setTimeout(() => {
+                toolbar.classList.add('show');
+            }, 1000);
+
+            // 5. Hiện chữ chúc mừng
             const guide = document.getElementById('guide-text');
             guide.style.color = "#b76e79";
             guide.style.fontWeight = "bold";
