@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Trần Mai Phương</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. CẤU HÌNH CƠ BẢN --- */
+        :root {
+            --primary-gold: #d4af37;
+            --rose-gold: #b76e79;
+            --bg-light: #fff0f5; 
+            --text-dark: #2c2c2c;
+            --cake-color: #ffc0cb;
+            --cake-frosting: #fff0f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-light);
+            background-image: radial-gradient(circle at 50% 50%, #ffe6ea 0%, #fff0f5 100%);
+            color: var(--text-dark);
+            overflow: hidden; 
+            height: 100vh; width: 100vw;
+            user-select: none;
+            cursor: url('https://cdn.custom-cursor.com/db/cursor/32/cursor_heart.png'), auto; 
+        }
+
+        /* --- 2. BACKGROUND --- */
+        #main-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1490750967868-58cb75063ed4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+            z-index: 1;
+        }
+        #bg-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 240, 245, 0.6); 
+            backdrop-filter: blur(5px);
+            z-index: 2;
+        }
+
+        /* --- 3. MÀN HÌNH MẬT KHẨU --- */
+        #welcome-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #ffe6ea 0%, #fff0f5 100%);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 1.5s ease;
+        }
+        .pass-container { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 30px; }
+        .pass-input {
+            padding: 12px 20px; font-size: 1.5rem; font-family: 'Montserrat', sans-serif;
+            background: rgba(255, 235, 240, 0.6); border: 2px solid var(--primary-gold);
+            color: var(--primary-gold); border-radius: 30px; text-align: center; width: 280px;
+            outline: none; letter-spacing: 5px; transition: 0.3s;
+        }
+        .pass-input:focus { box-shadow: 0 0 15px var(--primary-gold); background: rgba(255, 255, 255, 0.8); }
+        .btn-check {
+            padding: 10px 30px; background: var(--primary-gold); color: #111; font-weight: bold;
+            border: none; border-radius: 20px; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+        }
+        .btn-check:hover { background: #fff; transform: scale(1.05); }
+        .error-msg { color: #ff4d4d; font-size: 0.9rem; min-height: 20px; font-style: italic; opacity: 0; transition: opacity 0.3s; }
+        .hint-text { color: #b76e79; font-size: 0.95rem; margin-top: 5px; font-style: italic; animation: pulse 2s infinite; }
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+        /* --- 4. CỔNG VÀO --- */
+        .gate-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 5000; perspective: 1500px; pointer-events: none; transition: opacity 3.5s ease-out; }
+        .gate-overlay.vanish { opacity: 0; pointer-events: none; }
+        .door-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; transform-style: preserve-3d; }
+        .door { position: relative; width: 50%; height: 100%; transition: transform 3.5s cubic-bezier(0.25, 1, 0.5, 1); transform-style: preserve-3d; background-color: #d8b5c0; }
+        .door-face { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: repeating-linear-gradient(90deg, #faddd7 0px, #faddd7 30px, #c9a0ac 30px, #c9a0ac 38px); box-shadow: inset 0 0 120px rgba(168, 123, 133, 0.8); }
+        .door-left { transform-origin: left center; border-right: 120px solid #d4a5b0; border-top: 15px solid #d4a5b0; border-bottom: 15px solid #d4a5b0; border-left: 20px solid #d4a5b0; }
+        .door-left::before { content: ''; position: absolute; top: 0; right: -120px; width: 40px; height: 100%; background: #a87b85; transform: rotateY(90deg); transform-origin: left; }
+        .door-right { transform-origin: right center; border-left: 120px solid #d4a5b0; border-top: 15px solid #d4a5b0; border-bottom: 15px solid #d4a5b0; border-right: 20px solid #d4a5b0; }
+        .door-right::before { content: ''; position: absolute; top: 0; left: -120px; width: 40px; height: 100%; background: #a87b85; transform: rotateY(-90deg); transform-origin: right; }
+        .gap-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: rgba(168, 123, 133, 0.8); z-index: 20; transform: translateX(-50%); transition: opacity 0.5s; }
+        .gate-overlay.is-open .door-left { transform: rotateY(105deg); }
+        .gate-overlay.is-open .door-right { transform: rotateY(-105deg); }
+        .gate-overlay.is-open .gap-line { opacity: 0; }
+
+        /* --- 5. GIAO DIỆN CHÍNH --- */
+        .main-container {
+            position: relative; z-index: 10; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; opacity: 0; transition: opacity 2s ease;
+        }
+        .main-container.revealed { opacity: 1; }
+
+        .content-box {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px 50px;
+            border-radius: 20px;
+            border: 2px solid #fff;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 500px; width: 80%;
+            position: relative; z-index: 15;
+            transition: all 0.5s ease;
+        }
+
+        /* --- 6. ẢNH BAY --- */
+        #scattered-gallery {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 12; opacity: 0; transition: opacity 2s ease;
+        }
+        .scatter-item {
+            position: absolute; width: 180px; height: 140px;
+            background: #fff; padding: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 5px; transition: opacity 0.5s ease-in-out, transform 0.3s ease; 
+            animation: float 6s ease-in-out infinite; opacity: 0; pointer-events: auto;
+        }
+        .scatter-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
+        .scatter-item:hover { transform: scale(1.1) rotate(0deg) !important; z-index: 20; }
+
+        .pos-1 { top: 12%; left: 15%; transform: rotate(-5deg); animation-delay: 0s; }
+        .pos-2 { top: 20%; right: 15%; transform: rotate(5deg); animation-delay: 1s; }
+        .pos-3 { top: 50%; left: 8%; transform: translateY(-50%) rotate(-3deg); animation-delay: 2s; }
+        .pos-4 { bottom: 20%; right: 10%; transform: rotate(-4deg); animation-delay: 3s; }
+        .pos-5 { bottom: 15%; left: 20%; transform: rotate(3deg); animation-delay: 4s; }
+
+        @keyframes float { 0%, 100% { margin-top: 0; } 50% { margin-top: -15px; } }
+
+        /* --- 7. CẬP NHẬT: GIAO DIỆN NÚT THƯ GIỐNG HỆT ẢNH --- */
+        .toolbar {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        .toolbar.show { opacity: 1; }
+
+        /* Bong bóng thoại - Làm giống ảnh */
+        .speech-bubble {
+            background: #fff;
+            padding: 10px 18px;
+            border-radius: 30px; /* Bo tròn kiểu viên thuốc */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            color: #555;
+            position: relative;
+            white-space: nowrap; 
+            font-weight: 500;
+            animation: floatBubble 3s ease-in-out infinite;
+        }
+
+        /* Mũi tên tam giác chỉ sang phải */
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            right: -8px; /* Đẩy mũi tên ra ngoài bên phải */
+            top: 50%;
+            transform: translateY(-50%);
+            border-style: solid;
+            border-width: 8px 0 8px 10px; /* Tạo hình tam giác */
+            border-color: transparent transparent transparent #fff; /* Màu trắng */
+        }
+
+        @keyframes floatBubble {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-5px); }
+        }
+
+        /* Nút tròn màu hồng giống ảnh */
+        .tool-btn {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            /* Gradient hồng nhẹ giống ảnh */
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid #fff; /* Viền trắng dày hơn chút */
+        }
+
+        /* Icon thư bên trong: Màu trắng */
+        .letter-btn { color: #fff; font-size: 1.5rem; }
+
+        .tool-btn:hover { transform: scale(1.1); }
+        .tool-btn:active { transform: scale(0.95); }
+
+        /* --- 8. MODAL BỨC THƯ --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .letter-paper {
+            background: #fffdf0; 
+            width: 90%; max-width: 500px;
+            padding: 40px; border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            position: relative;
+            transform: translateY(50px); transition: transform 0.5s;
+            background-image: linear-gradient(#999 0.05em, transparent 0.1em);
+            background-size: 100% 1.5em; 
+        }
+        .modal-overlay.open .letter-paper { transform: translateY(0); }
+
+        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #555; }
+        .letter-content {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.5em; color: #333;
+            max-height: 60vh; overflow-y: auto; margin-top: 10px;
+        }
+
+        /* --- CÁC HIỆU ỨNG KHÁC (BÁNH, NẾN) --- */
+        .cursive { font-family: 'Great Vibes', cursive; }
+        .gold-text {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text; color: transparent;
+            font-size: 3.5rem; margin: 10px 0;
+            animation: shine 3s infinite linear;
+        }
+        .rose-text { color: var(--rose-gold); font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: bold; }
+        .instruction-text { font-size: 0.9rem; color: #888; margin-top: 30px; font-style: italic; animation: blink 2s infinite; position: relative; z-index: 20; }
+        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes blink { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        .wishes-container { height: 60px; overflow: hidden; position: relative; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 1s ease; }
+        .wishes-container.show { opacity: 1; }
+        .wish-line { position: absolute; width: 100%; font-family: 'Montserrat', sans-serif; color: #555; font-style: italic; opacity: 0; transform: translateY(20px); transition: all 0.5s; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .wish-line.active { opacity: 1; transform: translateY(0); }
+
+        .cake-wrapper { position: relative; height: 250px; width: 250px; margin: 0 auto; display: flex; justify-content: center; align-items: flex-end; cursor: pointer; z-index: 15; transform-style: preserve-3d; }
+        .plate { width: 240px; height: 10px; background: #ddd; border-radius: 10px; position: absolute; bottom: 0; box-shadow: 0 5px 10px rgba(0,0,0,0.1); z-index: 1; }
+        .tier { position: absolute; background: var(--cake-color); border-radius: 10px 10px 5px 5px; box-shadow: inset 0 -5px 10px rgba(0,0,0,0.05); }
+        .tier::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 15px; background: var(--cake-frosting); border-radius: 10px 10px 50% 50%; z-index: 1; }
+        .sprinkles { position: absolute; width: 100%; height: 100%; pointer-events: none; z-index: 2; background-image: radial-gradient(circle, #ff69b4 2px, transparent 2.5px), radial-gradient(circle, #ffd700 2px, transparent 2.5px), radial-gradient(circle, #87ceeb 2px, transparent 2.5px); background-size: 30px 30px; background-position: 0 0, 10px 10px, 20px 20px; opacity: 0.6; }
+        .tier-bottom { width: 200px; height: 60px; bottom: 10px; z-index: 2; }
+        .tier-middle { width: 150px; height: 50px; bottom: 70px; z-index: 3; background: #ffb7c5; }
+        .tier-top { width: 100px; height: 50px; bottom: 120px; z-index: 4; background: #ffa6b9; }
+
+        .candle-container { position: absolute; bottom: 170px; left: 50%; transform: translateX(-50%); z-index: 20; transition: transform 0.2s; }
+        .cake-wrapper:active .candle-container { transform: translateX(-50%) translateY(5px); }
+        .candle-body { width: 40px; height: 50px; background: #fff; border-radius: 5px; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 -5px 0 #eee; border: 1px solid #eee; }
+        .candle-num { font-size: 1.5rem; font-weight: bold; color: var(--primary-gold); }
+        .flame { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); width: 14px; height: 28px; background: orange; border-radius: 50% 50% 20% 20%; animation: flicker 0.1s infinite alternate; box-shadow: 0 0 10px orange, 0 0 20px yellow; opacity: 1; transition: opacity 0.5s; }
+        .flame.off { opacity: 0; }
+        @keyframes flicker { 0% { transform: translateX(-50%) scale(1); } 100% { transform: translateX(-50%) scale(1.1); } }
+        .smoke { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 10px; height: 30px; background: #bbb; filter: blur(5px); opacity: 0; border-radius: 50%; pointer-events: none; }
+        .smoke.rise { animation: smokeRise 2s forwards; }
+        @keyframes smokeRise { 0% { opacity: 0.8; transform: translateX(-50%) translateY(0) scale(1); } 100% { opacity: 0; transform: translateX(-50%) translateY(-50px) scale(3); } }
+
+        .gift-icon { position: absolute; font-size: 2.2rem; bottom: 0; z-index: 5; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); cursor: pointer; transition: transform 0.3s; }
+        .gift-icon:hover { transform: scale(1.2) translateY(-10px); }
+        .g1 { left: 0px; color: var(--rose-gold); animation: bounce 2s infinite; }
+        .g2 { right: 0px; color: var(--primary-gold); animation: bounce 2s infinite 1s; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        .flying-heart { position: fixed; bottom: -50px; pointer-events: none; z-index: 4; animation: floatUp linear forwards; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1)); }
+        @keyframes floatUp { 0% { opacity: 0; transform: translateY(0) rotate(0deg); } 10% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-110vh) rotate(180deg); } }
+        .confetti { position: absolute; width: 10px; height: 10px; top: -10px; z-index: 20; pointer-events: none; animation: fallConfetti linear forwards; }
+        @keyframes fallConfetti { to { transform: translateY(100vh) rotate(720deg); } }
+
+        /* --- 9. MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .gold-text { font-size: 2.5rem; } 
+            .content-box { width: 95%; padding: 20px; } 
+            .cake-wrapper { transform: scale(0.8); margin-bottom: -30px; }
+            .scatter-item { width: 100px; height: 80px; } 
+            .pos-1 { top: 5%; left: 5%; transform: rotate(-5deg); }
+            .pos-2 { top: 8%; right: 5%; transform: rotate(5deg); }
+            .pos-3 { top: 40%; left: 2%; transform: rotate(-2deg); }
+            .pos-4 { bottom: 15%; right: 5%; transform: rotate(-4deg); }
+            .pos-5 { bottom: 10%; left: 5%; transform: rotate(3deg); }
+            
+            /* Mobile toolbar settings */
+            .toolbar { bottom: 20px; right: 20px; gap: 8px; }
+            .speech-bubble { font-size: 0.8rem; padding: 8px 12px; }
+            .tool-btn { width: 50px; height: 50px; }
+            .letter-btn { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="nhac.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="welcome-screen">
+        <h1 class="cursive" style="color: #d4af37; font-size: 3rem;">Enter Passcode</h1>
+        <div class="pass-container">
+            <input type="text" id="passInput" class="pass-input" placeholder="DD/MM/YYYY" maxlength="8">
+            <button class="btn-check" onclick="checkPass()">Unlock 🔓</button>
+            <p class="hint-text">Gợi ý: Mật khẩu là ngày bạn chào đời 👉👈</p>
+            <p class="error-msg" id="errorMsg">Mật khẩu không đúng!</p>
+        </div>
+    </div>
+
+    <div class="gate-overlay" id="gate">
+        <div class="gap-line"></div>
+        <div class="door-wrapper">
+            <div class="door door-left"><div class="door-face"></div></div>
+            <div class="door door-right"><div class="door-face"></div></div>
+        </div>
+    </div>
+
+    <div id="main-bg"></div>
+    <div id="bg-overlay"></div>
+
+    <div class="toolbar" id="toolbar">
+        <div class="speech-bubble">
+            Tớ có thư cho bạn nè! 💌
+        </div>
+        <div class="tool-btn" onclick="toggleLetter()">
+            <i class="fas fa-envelope letter-btn"></i>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="letter-modal">
+        <div class="letter-paper">
+            <span class="close-modal" onclick="toggleLetter()">&times;</span>
+            <h2 class="cursive" style="color: #b76e79; text-align: center;">Gửi Mai Phương,</h2>
+            <div class="letter-content">
+                <p>Chào cậu,</p>
+                <p>Hôm nay là một ngày siêu đặc biệt. Tớ làm cái web nhỏ này để chúc mừng sinh nhật tuổi 17 của cậu.</p>
+                <p>Chúc cậu tuổi mới luôn xinh đẹp, học giỏi và gặp nhiều may mắn nhé. Mong rằng mọi điều ước khi thổi nến của cậu sẽ thành hiện thực.</p>
+                <p>Happy Birthday! 🎂✨</p>
+                <br>
+                <p style="text-align: right;">( N.M.T(Cốt) )</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="scattered-gallery">
+        <div class="scatter-item pos-1"><img id="slot-0" src="" alt="Ảnh 1"></div>
+        <div class="scatter-item pos-2"><img id="slot-1" src="" alt="Ảnh 4"></div>
+        <div class="scatter-item pos-3"><img id="slot-2" src="" alt="Ảnh 5"></div>
+        <div class="scatter-item pos-4"><img id="slot-3" src="" alt="Ảnh 2"></div>
+        <div class="scatter-item pos-5"><img id="slot-4" src="" alt="Ảnh 3"></div>
+    </div>
+
+    <div class="main-container" id="party-container">
+        <div class="content-box">
+            <h2 class="rose-text">Happy Birthday to</h2>
+            <h1 class="cursive gold-text"> Trần Mai Phương</h1>
+            
+            <div class="wishes-container" id="wishes-area">
+                <p class="wish-line" id="wish-text"></p>
+            </div>
+
+            <div class="cake-wrapper" onclick="blowCandle()">
+                
+                <div class="plate"></div>
+                <div class="tier tier-bottom"><div class="sprinkles"></div></div>
+                <div class="tier tier-middle"><div class="sprinkles"></div></div>
+                <div class="tier tier-top"><div class="sprinkles"></div></div>
+                
+                <div class="candle-container">
+                    <div class="smoke" id="smoke"></div>
+                    <div class="flame" id="flame"></div>
+                    <div class="candle-body"><span class="candle-num">17</span></div>
+                </div>
+
+                <div class="gift-icon g1"><i class="fas fa-gift"></i></div>
+                <div class="gift-icon g2"><i class="fas fa-gift"></i></div>
+            </div>
+
+            <p class="instruction-text" id="guide-text">"Hãy nhắm mắt, ước một điều và chạm vào nến để thổi tắt nhé!"</p>
+        </div>
+    </div>
+
+    <script>
+        const CORRECT_PASS = "14022009";
+        const gate = document.getElementById('gate');
+        const partyContainer = document.getElementById('party-container');
+        const gallery = document.getElementById('scattered-gallery');
+        const toolbar = document.getElementById('toolbar');
+        const letterModal = document.getElementById('letter-modal');
+        const bgMusic = document.getElementById('bg-music'); 
+
+        function toggleLetter() {
+            letterModal.classList.toggle('open');
+        }
+
+        const allPhotos = [
+            'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg',
+            'img6.jpg', 'img7.jpg', 'img8.jpg', 'img9.jpg', 'img10.jpg',
+            'img11.jpg', 'img12.jpg', 'img13.jpg', 'img14.jpg', 'img15.jpg'
+        ];
+
+        const demoPhotos = [];
+        for(let i=1; i<=15; i++) {
+            demoPhotos.push(`https://picsum.photos/200/300?random=${i}`);
+        }
+        
+        // Khi nào có ảnh thật, đổi demoPhotos thành allPhotos
+        const photoPool = demoPhotos; 
+
+        function preloadImages() {
+            photoPool.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
+        preloadImages();
+
+        let nextPhotoIndex = 5; 
+
+        function initGallery() {
+            for (let i = 0; i < 5; i++) {
+                const img = document.getElementById(`slot-${i}`);
+                img.src = photoPool[i];
+                img.parentElement.style.opacity = '1';
+            }
+            setInterval(swapRandomPhoto, 3000); 
+        }
+
+        function swapRandomPhoto() {
+            const randomSlot = Math.floor(Math.random() * 5); 
+            const slotElement = document.getElementById(`slot-${randomSlot}`);
+            const frameElement = slotElement.parentElement;
+
+            frameElement.style.opacity = '0';
+
+            setTimeout(() => {
+                const newPhotoUrl = photoPool[nextPhotoIndex];
+                slotElement.src = newPhotoUrl;
+
+                nextPhotoIndex++;
+                if (nextPhotoIndex >= photoPool.length) {
+                    nextPhotoIndex = 0; 
+                }
+
+                frameElement.style.opacity = '1';
+            }, 500);
+        }
+
+        function checkPass() {
+            const input = document.getElementById('passInput');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (input.value === CORRECT_PASS) {
+                bgMusic.volume = 0.5; 
+                bgMusic.play().catch(error => {
+                    console.log("Trình duyệt chặn tự phát nhạc: ", error);
+                });
+
+                document.getElementById('welcome-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('welcome-screen').style.display = 'none';
+                    openGateAndStartParty();
+                }, 1000);
+            } else {
+                errorMsg.style.opacity = '1';
+                input.classList.add('shake');
+                input.style.borderColor = '#ff4d4d';
+                setTimeout(() => {
+                    input.classList.remove('shake');
+                    input.style.borderColor = '#d4af37';
+                    errorMsg.style.opacity = '0';
+                }, 1000);
+            }
+        }
+        document.getElementById('passInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkPass();
+        });
+
+        function openGateAndStartParty() {
+            partyContainer.classList.add('revealed');
+            gallery.style.opacity = '1';
+            toolbar.classList.add('show');
+            initGallery(); 
+            gate.classList.add('is-open');
+            gate.classList.add('vanish');
+        }
+
+        const wishes = [
+            "Chúc mừng sinh nhật Mai Phương! 🎂",
+            `<i class="fas fa-calendar-alt wish-icon" style="color: #ff69b4;"></i> 14-2-2009 - Ngày đặc biệt của cậu <i class="fas fa-heart wish-icon" style="color: red;"></i>`,
+            "Tuổi 17 thật rực rỡ và xinh đẹp nhé! 🌸",
+            "Hãy luôn giữ nụ cười trên môi nhé! 😊",
+            `<i class="fas fa-graduation-cap wish-icon" style="color: #32cd32;"></i> Chúc cậu luôn hạnh phúc và may mắn và học giỏi nha <i class="fas fa-clover wish-icon" style="color: #4CAF50;"></i>`,
+            "Happy 17th Birthday! ✨"
+        ];
+        
+        let wishIndex = 0;
+        const wishEl = document.getElementById('wish-text');
+        const wishesArea = document.getElementById('wishes-area');
+        let candleBlown = false;
+
+        function startWishes() {
+            wishesArea.classList.add('show');
+            runWishes();
+            setInterval(createFloatingHeart, 400); 
+        }
+
+        function runWishes() {
+            wishEl.innerHTML = wishes[0];
+            wishEl.classList.add('active');
+            setInterval(() => {
+                wishEl.classList.remove('active');
+                setTimeout(() => {
+                    wishIndex = (wishIndex + 1) % wishes.length;
+                    wishEl.innerHTML = wishes[wishIndex]; 
+                    wishEl.classList.add('active');
+                }, 500);
+            }, 3000);
+        }
+
+        function blowCandle() {
+            if (candleBlown) return;
+
+            document.getElementById('flame').classList.add('off');
+            document.getElementById('smoke').classList.add('rise');
+            
+            const guide = document.getElementById('guide-text');
+            guide.style.color = "#b76e79";
+            guide.style.fontWeight = "bold";
+            guide.innerText = "Yay! Điều ước của cậu đã được gửi đi! 🎉";
+
+            celebrateConfetti();
+            setTimeout(() => { startWishes(); }, 1000);
+            candleBlown = true;
+        }
+
+        function celebrateConfetti() {
+            const colors = ['#ff69b4', '#ffd700', '#87ceeb', '#ff4500', '#32cd32'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                const duration = Math.random() * 3 + 2;
+                confetti.style.animationDuration = duration + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), (duration + 2) * 1000);
+            }
+        }
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('flying-heart');
+            heart.innerHTML = '<i class="fas fa-heart"></i>';
+            const startLeft = Math.random() * 100;
+            const size = Math.random() * 1.5 + 0.8;
+            const duration = Math.random() * 3 + 5;
+            const colors = ['#ffc0cb', '#ff69b4', '#db7093', '#d4af37', '#e796a3'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            heart.style.left = startLeft + 'vw';
+            heart.style.fontSize = size + 'rem';
+            heart.style.color = color;
+            heart.style.animationDuration = duration + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, duration * 1000);
+        }
+    </script>
+</body>
+</html>
