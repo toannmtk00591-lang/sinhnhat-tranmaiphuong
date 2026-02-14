@@ -104,28 +104,6 @@
             transition: all 0.5s ease;
         }
 
-        /* --- 6. ẢNH BAY (MẶC ĐỊNH ẨN - OPACITY 0) --- */
-        #scattered-gallery {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 12; opacity: 0; transition: opacity 2s ease;
-        }
-        .scatter-item {
-            position: absolute; width: 180px; height: 140px;
-            background: #fff; padding: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            border-radius: 5px; transition: opacity 0.5s ease-in-out, transform 0.3s ease; 
-            animation: float 6s ease-in-out infinite; opacity: 0; pointer-events: auto;
-        }
-        .scatter-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
-        .scatter-item:hover { transform: scale(1.1) rotate(0deg) !important; z-index: 20; }
-
-        .pos-1 { top: 12%; left: 15%; transform: rotate(-5deg); animation-delay: 0s; }
-        .pos-2 { top: 20%; right: 15%; transform: rotate(5deg); animation-delay: 1s; }
-        .pos-3 { top: 50%; left: 8%; transform: translateY(-50%) rotate(-3deg); animation-delay: 2s; }
-        .pos-4 { bottom: 20%; right: 10%; transform: rotate(-4deg); animation-delay: 3s; }
-        .pos-5 { bottom: 15%; left: 20%; transform: rotate(3deg); animation-delay: 4s; }
-
-        @keyframes float { 0%, 100% { margin-top: 0; } 50% { margin-top: -15px; } }
-
         /* --- 7. NÚT THƯ (MẶC ĐỊNH ẨN - OPACITY 0) --- */
         .toolbar {
             position: fixed;
@@ -212,6 +190,16 @@
             font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.5em; color: #333;
             max-height: 60vh; overflow-y: auto; margin-top: 10px;
         }
+        
+        /* STYLE CHO DÒNG NHẮC NHỞ MỚI THÊM */
+        .letter-ps {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px dashed #d4af37; /* Đường kẻ đứt nét màu vàng */
+            font-size: 0.95rem;
+            color: #b76e79; /* Màu hồng đậm */
+            font-style: italic;
+        }
 
         /* --- CÁC HIỆU ỨNG KHÁC (BÁNH, NẾN) --- */
         .cursive { font-family: 'Great Vibes', cursive; }
@@ -267,12 +255,6 @@
             .gold-text { font-size: 2.5rem; } 
             .content-box { width: 95%; padding: 20px; } 
             .cake-wrapper { transform: scale(0.8); margin-bottom: -30px; }
-            .scatter-item { width: 100px; height: 80px; } 
-            .pos-1 { top: 5%; left: 5%; transform: rotate(-5deg); }
-            .pos-2 { top: 8%; right: 5%; transform: rotate(5deg); }
-            .pos-3 { top: 40%; left: 2%; transform: rotate(-2deg); }
-            .pos-4 { bottom: 15%; right: 5%; transform: rotate(-4deg); }
-            .pos-5 { bottom: 10%; left: 5%; transform: rotate(3deg); }
             
             /* Mobile toolbar settings */
             .toolbar { bottom: 20px; right: 20px; gap: 8px; }
@@ -311,7 +293,7 @@
 
     <div class="toolbar" id="toolbar">
         <div class="speech-bubble">
-            Mình có thư cho cậu nè! 💌
+            Tớ có thư cho cậu nè! 💌
         </div>
         <div class="tool-btn" onclick="toggleLetter()">
             <i class="fas fa-envelope letter-btn"></i>
@@ -328,17 +310,15 @@
                 <p>Chúc cậu tuổi mới luôn xinh đẹp, học giỏi và gặp nhiều may mắn nhé. Mong rằng mọi điều ước khi thổi nến của cậu sẽ thành hiện thực.</p>
                 <p>Happy Birthday! 🎂✨</p>
                 <br>
-                <p style="text-align: right;">(Ký tên)</p>
+                <p style="text-align: right;">(N.M.T (Cốt))</p>
+                
+                <div class="letter-ps">
+                    P/s: Hôm này sinh nhật cậu và cũng ngày Valentine chúc cậu 1 ngày cùng bên người mà bạn thích thật vui vẻ nhé!
+                    Sau hơn 24 giờ là giao thừa rồi,chúc cậu năm mới thật hành phúc bên gia đình 
+                    và cùng bên người mà bạn thích một năm mới thật may mắn và thành công nhé!
+                </div>
             </div>
         </div>
-    </div>
-
-    <div id="scattered-gallery">
-        <div class="scatter-item pos-1"><img id="slot-0" src="" alt="Ảnh 1"></div>
-        <div class="scatter-item pos-2"><img id="slot-1" src="" alt="Ảnh 4"></div>
-        <div class="scatter-item pos-3"><img id="slot-2" src="" alt="Ảnh 5"></div>
-        <div class="scatter-item pos-4"><img id="slot-3" src="" alt="Ảnh 2"></div>
-        <div class="scatter-item pos-5"><img id="slot-4" src="" alt="Ảnh 3"></div>
     </div>
 
     <div class="main-container" id="party-container">
@@ -375,7 +355,6 @@
         const CORRECT_PASS = "14022009";
         const gate = document.getElementById('gate');
         const partyContainer = document.getElementById('party-container');
-        const gallery = document.getElementById('scattered-gallery');
         const toolbar = document.getElementById('toolbar');
         const letterModal = document.getElementById('letter-modal');
         const bgMusic = document.getElementById('bg-music'); 
@@ -384,66 +363,12 @@
             letterModal.classList.toggle('open');
         }
 
-        const allPhotos = [
-            'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg',
-            'img6.jpg', 'img7.jpg', 'img8.jpg', 'img9.jpg', 'img10.jpg',
-            'img11.jpg', 'img12.jpg', 'img13.jpg', 'img14.jpg', 'img15.jpg'
-        ];
-
-        const demoPhotos = [];
-        for(let i=1; i<=15; i++) {
-            demoPhotos.push(`https://picsum.photos/200/300?random=${i}`);
-        }
-        
-        // Khi nào có ảnh thật, đổi demoPhotos thành allPhotos
-        const photoPool = demoPhotos; 
-
-        function preloadImages() {
-            photoPool.forEach(url => {
-                const img = new Image();
-                img.src = url;
-            });
-        }
-        preloadImages();
-
-        let nextPhotoIndex = 5; 
-
-        function initGallery() {
-            for (let i = 0; i < 5; i++) {
-                const img = document.getElementById(`slot-${i}`);
-                img.src = photoPool[i];
-                img.parentElement.style.opacity = '1';
-            }
-            setInterval(swapRandomPhoto, 3000); 
-        }
-
-        function swapRandomPhoto() {
-            const randomSlot = Math.floor(Math.random() * 5); 
-            const slotElement = document.getElementById(`slot-${randomSlot}`);
-            const frameElement = slotElement.parentElement;
-
-            frameElement.style.opacity = '0';
-
-            setTimeout(() => {
-                const newPhotoUrl = photoPool[nextPhotoIndex];
-                slotElement.src = newPhotoUrl;
-
-                nextPhotoIndex++;
-                if (nextPhotoIndex >= photoPool.length) {
-                    nextPhotoIndex = 0; 
-                }
-
-                frameElement.style.opacity = '1';
-            }, 500);
-        }
-
         // --- BƯỚC 1: XỬ LÝ NHẬP PASS (CHỈ MỞ CỔNG, KHÔNG LÀM GÌ KHÁC) ---
         function checkPass() {
             const input = document.getElementById('passInput');
             const errorMsg = document.getElementById('errorMsg');
             
             if (input.value === CORRECT_PASS) {
-                // CHỈ MỞ KHÓA, KHÔNG BẬT NHẠC
                 document.getElementById('welcome-screen').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('welcome-screen').style.display = 'none';
@@ -467,8 +392,6 @@
         // --- BƯỚC 2: MỞ CỔNG: CHỈ HIỆN BÁNH KEM ---
         function openGateAndStartParty() {
             partyContainer.classList.add('revealed');
-            
-            // LÚC NÀY CHƯA HIỆN ẢNH VÀ THƯ
             gate.classList.add('is-open');
             gate.classList.add('vanish');
         }
@@ -506,7 +429,7 @@
             }, 3000);
         }
 
-        // --- BƯỚC 3: THỔI NẾN -> KÍCH HOẠT TẤT CẢ (NHẠC, ẢNH, THƯ) ---
+        // --- BƯỚC 3: THỔI NẾN -> KÍCH HOẠT TẤT CẢ (NHẠC, THƯ) ---
         function blowCandle() {
             if (candleBlown) return;
 
@@ -519,10 +442,6 @@
             bgMusic.play().catch(error => {
                 console.log("Trình duyệt chặn tự phát nhạc: ", error);
             });
-
-            // 3. HIỆN ẢNH (SCATTERED GALLERY)
-            gallery.style.opacity = '1';
-            initGallery(); // Bắt đầu đổi ảnh ngẫu nhiên
 
             // 4. HIỆN NÚT THƯ (SAU 1 GIÂY CHO ĐẸP)
             setTimeout(() => {
